@@ -32,9 +32,14 @@
                     </div>
                 </div>
                 <div ng-switch-when="radio">
-                    <div ng-repeat="j in f.options">
-                        <input type="radio" name="j" ng-value="j" ng-checked="f.autoselect.indexOf(j)>-1" ng-disabled="!f.editable" ng-required="f.required"/>{{j}}
+                    <div ng-repeat="j in f.options track by $index">
+                        <input type="radio" name="{{f.label}}" value="{{j}}" ng-value="j" ng-checked="f.autoselect.indexOf(j)>-1" ng-disabled="!f.editable" ng-required="f.required"/>{{j}}
                     </div>
+                </div>
+                <div ng-switch-when="select">
+                    <select name="{{f.label}}">
+                        <option ng-repeat="j in f.options track by $index" ng-selected="f.autoselect.indexOf(j)>-1">{{j}}</option>
+                    </select>
                 </div>
             </div>
         </div>
