@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+    <script src="app.js"></script>
+    <title>AutoForm generation</title>
+</head>
+<body ng-app="jForm">
+<main ng-controller="formController">
+    <section>
+        <label>Received response:</label>
+        <textarea>{{s.j}}</textarea>
+        <label>After post response:</label>
+        <textarea>{{s.w}}</textarea>
+    </section>
+    <form id="j" name="'{{s.j.form_name}}'" id="{{s.j.form_id}}" ng-submit="submit()" >
+        <input type="hidden" name="form_name" value="'{{s.j.form_name}}'"/>
+        <input type="hidden" name="form_id" value="{{s.j.form_id}}" />
+        <div ng-repeat="f in s.j.form_fields">
+            <div ng-switch on="f.component">
+                <label>{{f.label}}</label>
+                <div ng-switch-when="textarea">
+                    <textarea name="f.label" ng-disabled="!f.editable">{{f.autofill}}</textarea>
+                </div>
+                <div ng-switch-when="textinput">
+                    <input type="text" name="f.label" placeholder="{{f.autofill}}" value="{{f.autofill}}" ng-disabled="!f.editable" ng-required="f.required" pattern="{{f.validation}}"/>
+                </div>
+                <div ng-switch-when="checkbox">
+                    <div ng-repeat="o in f.options">
+                        <input type="checkbox" name="f.label" ng-value="o" ng-checked="f.autoselect.indexOf(o)>-1" ng-disabled="!f.editable"  ng-required="f.required"/>{{o}}
+                    </div>
+                </div>
+                <div ng-switch-when="radio">
+                    <div ng-repeat="j in f.options">
+                        <input type="radio" name="j" ng-value="j" ng-checked="f.autoselect.indexOf(j)>-1" ng-disabled="!f.editable" ng-required="f.required"/>{{j}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="submit"/>
+    </form>
+</main>
+</body>
+</html>
