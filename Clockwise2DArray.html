@@ -1,0 +1,48 @@
+<!--/**-->
+<!--* Created by William on 13-04-2017.-->
+<!--* Big assumption is this is 2 dimensional array. ZigZag array won't work for this and should be not in this scope.-->
+<!--* So getting array dimension using 0th element is acceptable.-->
+<!--*/-->
+
+<script>
+    function createInitArray(col,row){
+        var h = 3, w = 3;
+        if(!!col||col==0)
+            w = col;
+        if(!!row||row==0)
+            h = row;
+        var array = [[]];
+        for(var i=0;i<h;i++){
+            for(var j=0;j<w;j++){
+                if(!array[i])
+                    array[i] = [];
+                array[i][j] = Math.floor(Math.random() * (20 - 1)) + 1;
+            }
+        }
+        //console.table(array);
+        return array;
+    }
+
+    function work(array){
+        console.table(array);
+        var allElements = [] ;
+        allElements = allElements.concat(array.shift());
+        while(array.length>0){
+            var temp = [];
+            array[0].forEach(function(){temp.push(new Array(array.length))});
+            var newRowSize = array.length;
+            var newColSize = array[0].length;
+            for(var i=0;i<newColSize;i++){
+                for(var j=0;j<newRowSize;j++){
+                    temp[i][j] = array[j][newColSize-i-1];
+                }
+            }
+            array = temp;
+            allElements = allElements.concat(array.shift());
+        }
+        console.log(allElements);
+    }
+    var a = createInitArray(6,7);
+    work(a);
+
+</script>
